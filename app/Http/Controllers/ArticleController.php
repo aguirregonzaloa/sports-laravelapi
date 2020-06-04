@@ -55,16 +55,9 @@ class ArticleController extends Controller
      * @return \Illuminate\Http\Response
      */
     //find list of articles by their category
-    public function show($id)
+    public function show(Article $article)
     {
-        $category = Category::find($id);
-
-        if($category)
-        $articles = $category->articles;
-        else
-        $articles = null;
-
-        return response()->json(['data' => $articles], 200);
+        return response()->json(['data' => $article], 200);
     }
 
 
@@ -75,11 +68,11 @@ class ArticleController extends Controller
      * @param  \App\Article  $article
      * @return \Illuminate\Http\Response
      */
-    public function update(ArticleRequest $request, Article $article)
+    public function update(Request $request, Article $article)
     {
         $article->update($request->all());
 
-        return response()->json(['data' => $articles], 202);
+        return response()->json(['data' => $article], 202);
     }
 
     /**

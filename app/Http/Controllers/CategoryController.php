@@ -9,9 +9,14 @@ use Illuminate\Http\Request;
 class CategoryController extends Controller
 {
 
+    public function __construct() {
+
+       $this->middleware('jwt.auth')->except('index', 'show');
+
+    }
+
     public function index()
     {
-
         $categories = Category::all();
         return response()->json(['data'=> $categories], 200);
     }
@@ -37,23 +42,11 @@ class CategoryController extends Controller
      * @param  \App\Category  $category
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Category $category)
     {
-        $category = Category::find($id);
-
         return response()->json(['data' => $category], 202);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Category  $category
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Category $category)
-    {
-        //
-    }
 
     /**
      * Update the specified resource in storage.
@@ -64,7 +57,8 @@ class CategoryController extends Controller
      */
     public function update(Request $request, Category $category)
     {
-        //
+        $category->update($request->all());
+        return response()->json(['data' -> $category], 202);
     }
 
     /**

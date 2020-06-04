@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Article;
 use App\Category;
 use Illuminate\Http\Request;
-use Illuminate\Http\Request\ArticleRequest;
+use App\Http\Requests\ArticleRequest;
 
 
 class ArticleController extends Controller

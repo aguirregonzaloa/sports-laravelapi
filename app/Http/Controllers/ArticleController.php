@@ -5,9 +5,16 @@ namespace App\Http\Controllers;
 use App\Article;
 use App\Category;
 use Illuminate\Http\Request;
+use Illuminate\Http\Request\ArticleRequest;
+
 
 class ArticleController extends Controller
 {
+    public function __construct() {
+
+       $this->middleware('jwt.auth')->except('index', 'show');
+
+    }
     /**
      * Display a listing of the resource.
      *
@@ -19,15 +26,6 @@ class ArticleController extends Controller
         return response()->json(['data' => $articles],200);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
 
     /**
      * Store a newly created resource in storage.
@@ -35,16 +33,8 @@ class ArticleController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ArticleRequest $request)
     {
-        $rules = [
-            'category_id' => 'required',
-            'name'=> 'required',
-            'description'=> 'required',
-            'price'=> 'required',
-        ];
-
-        $this->validate($request, $rules);
 
         $data = $request->all();
         $category = Category::find($data['category_id']);
@@ -52,7 +42,7 @@ class ArticleController extends Controller
         if($category){
             $article = Article::create($data);
         }else{// category could not found = null
-            return response()->json(['data'=> $category], 401);
+            return response()->json(['data'=> $category], 404);
         }
         return response()->json(['data'=> $article], 201);
 
@@ -74,19 +64,9 @@ class ArticleController extends Controller
         else
         $articles = null;
 
-        return response()->json(['data' => $articles], 202);
+        return response()->json(['data' => $articles], 200);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Article  $article
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Article $article)
-    {
-        //
-    }
 
     /**
      * Update the specified resource in storage.
@@ -95,9 +75,11 @@ class ArticleController extends Controller
      * @param  \App\Article  $article
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Article $article)
+    public function update(ArticleRequest $request, Article $article)
     {
-        //
+        $article->update($request->all());
+
+        return response()->json(['data' => $articles], 202);
     }
 
     /**

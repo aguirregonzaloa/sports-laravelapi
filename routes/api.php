@@ -22,11 +22,9 @@ Route::post('/login', 'AuthController@login');
 
 Route::post('/register', 'AuthController@register');
 
-Route::Resource('/category', 'CategoryController');
-Route::get('/category/{id}', 'CategoryController@show');
+Route::apiResource('/category', 'CategoryController');
 
-Route::Resource('/article', 'ArticleController');
-Route::get('/article/{id}', 'ArticleController@show');
+Route::apiResource('/article', 'ArticleController');
 
 // These routes required a token to be accessed
 Route::group(['middleware' => 'jwt.auth'], function () {

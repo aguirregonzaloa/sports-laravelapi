@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\RegisterAuthRequest;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 use  JWTAuth;
 use Tymon\JWTAuth\Exceptions\JWTException;
 
@@ -12,6 +13,19 @@ class  AuthController extends  Controller {
 	public  $loginAfterSignUp = true;
 
 	public  function  register(Request  $request) {
+	
+		$validator = Validator::make($request->all(), [
+           'email' => 'required|unique:users|max:255',
+        ]);
+
+
+    	if ($validator->fails()) {
+        return  response()->json([
+			'status' => 'fails',
+			'data' => 'Email is already register'
+		], 400);
+    	}
+
 		$user = new  User();
 		$user->name = $request->name;
 		$user->surname = $request->surname;

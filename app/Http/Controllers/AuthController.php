@@ -22,7 +22,7 @@ class  AuthController extends  Controller {
     	if ($validator->fails()) {
         return  response()->json([
 			'status' => 'fails',
-			'message' => 'Email is already register'
+			'message' => 'Email is already registered'
 		], 400);
     	}
 
@@ -50,7 +50,7 @@ class  AuthController extends  Controller {
 		if (!$jwt_token = JWTAuth::attempt($input)) {
 			return  response()->json([
 				'status' => 'invalid_credentials',
-				'message' => 'Your email or password are invalid!!!',
+				'message' => 'Your email or password are invalid',
 			], 401);
 		}
 

@@ -22,7 +22,7 @@ class  AuthController extends  Controller {
     	if ($validator->fails()) {
         return  response()->json([
 			'status' => 'fails',
-			'data' => 'Email is already register'
+			'message' => 'Email is already register'
 		], 400);
     	}
 
